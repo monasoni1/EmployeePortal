@@ -1,5 +1,6 @@
 package com.project.UserPortal.Security;
 
+import com.project.UserPortal.Exceptions.UnauthorizedException;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +16,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtilsToken
 {
+
     private static final Logger logger = LoggerFactory.getLogger(JwtUtilsToken.class);
     private String jwtSecretKey="Secret";
 
@@ -37,7 +40,7 @@ public class JwtUtilsToken
 //    public boolean isTokenExpired(String token)
 //    {
 //        return extractExpiration(token).before(new Date());
-//    }
+  //  }
     public String generateJwtToken(UserDetails userDetails)
     {
         //Map<String, Object> claims = new HashMap<>();
@@ -46,7 +49,7 @@ public class JwtUtilsToken
     public String createToken(String username)
     {
         return Jwts.builder().setSubject(username).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+10000*60*60*10))
+                .setExpiration(new Date(System.currentTimeMillis()+1000*60*60*10))
                 .signWith(SignatureAlgorithm.HS256, jwtSecretKey).compact();
 
     }
@@ -56,10 +59,15 @@ public class JwtUtilsToken
 //    public boolean validateToken(String token, UserDetails userDetails)
 //    {
 //        final String username=extractUsername(token);
-//        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-//    }
 
-    public boolean validateToken(String authToken) {
+//            return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+//
+//
+//
+//
+  //  }
+
+    public boolean validateToken(String authToken, HttpServletRequest request) {
         try {
             Jwts.parser().setSigningKey(jwtSecretKey).parseClaimsJws(authToken);
             return true;
@@ -68,7 +76,7 @@ public class JwtUtilsToken
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
-            logger.error("JWT token is expired: {}", e.getMessage());
+            request.setAttribute("expired",e.getMessage());
         } catch (UnsupportedJwtException e) {
             logger.error("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {

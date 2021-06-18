@@ -15,4 +15,5 @@ public interface DepartmentMapper
     DepartmentDTO convertDepartmentToDTO(Department department);
     Department convertDTOToDepartment(DepartmentDTO departmentDTO);
     Set<Department> map(Set<DepartmentDTO> departmentDTOSet);
+    Set<DepartmentDTO> map1(Set<Department> department);
 }

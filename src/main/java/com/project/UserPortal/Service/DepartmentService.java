@@ -3,12 +3,15 @@ package com.project.UserPortal.Service;
 import com.project.UserPortal.DTO.DepartmentDTO;
 import com.project.UserPortal.Domain.Department;
 import com.project.UserPortal.Domain.Project;
-import com.project.UserPortal.Exceptions.BadRequestException;
-import com.project.UserPortal.Exceptions.NotFoundException;
+import com.project.UserPortal.Exceptions.ResourceAlreadyExists;
+import com.project.UserPortal.Exceptions.ResourceNotFoundException;
 import com.project.UserPortal.Mapper.DepartmentMapper;
 import com.project.UserPortal.Repository.DepartmentRepository;
 import com.project.UserPortal.Repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -31,7 +34,7 @@ public class DepartmentService
     {
         Optional<Department> department1=departmentRepository.findByName(department.getName());
         if(department1.isPresent())
-            throw new BadRequestException("Department Already Exist with name "+ department.getName());
+            throw new ResourceAlreadyExists("Department Already Exist with name "+ department.getName());
         return departmentRepository.save(department);
 
     }
@@ -39,7 +42,7 @@ public class DepartmentService
     {
         Optional<Department> optionalDepartment=departmentRepository.findById(id);
         if(!optionalDepartment.isPresent())
-            throw new NotFoundException("Department with id "+id+"doesn't exists!!");
+            throw new ResourceNotFoundException("Department with id "+id+"doesn't exists!!");
         department.setId(id);
         return departmentRepository.save(department);
     }
@@ -47,21 +50,22 @@ public class DepartmentService
     {
         Optional<Department> department1=departmentRepository.findById(id);
         if(!department1.isPresent())
-            throw new NotFoundException("Department with id "+id+"doesn't exists!!");
+            throw new ResourceNotFoundException("Department with id "+id+"doesn't exists!!");
         departmentRepository.deleteById(id);
     }
 
-    public List<Department> getallDepartment()
+    public Set<Department> getallDepartment(int pageNo ,int pageSize)
     {
-        List<Department> departments=new ArrayList<>();
-        departmentRepository.findAll().forEach(departments::add);
-        return departments;
+        Pageable paging = PageRequest.of(pageNo,pageSize);
+        Page<Department> page=departmentRepository.findAll(paging);
+
+        return page.toSet();
     }
     public Department getDepartment(int id)
     {
         Optional<Department> department=departmentRepository.findById(id);
         if(department.isPresent())
-            throw new NotFoundException("Department with id \"+id+\"doesn't exists!!");
+            throw new ResourceNotFoundException("Department with id \"+id+\"doesn't exists!!");
             return department.get();
     }
 

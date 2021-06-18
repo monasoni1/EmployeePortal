@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.Set;
+
 @Mapper
 public interface ProjectMapper
 {
@@ -16,4 +18,7 @@ public interface ProjectMapper
 
     @Mapping(target="department.id", source="projectDTO.deptId")
     Project map(ProjectDTO projectDTO);
+
+    Set<Project> convertDTO(Set<ProjectDTO> projectDTO);
+    Set<ProjectDTO> convert(Set<Project> projects);
 }

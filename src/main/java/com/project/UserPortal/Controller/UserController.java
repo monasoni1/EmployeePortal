@@ -22,7 +22,7 @@ public class UserController
         return userService.addUser(user);
     }
 
-    @GetMapping(path="/getMsg")
+    @GetMapping(path="/msgs")
     public String getMsg()
     {
         return "get user";
