@@ -21,21 +21,6 @@ public class DeparmentController
         this.departmentMapper = departmentMapper;
         this.departmentService = departmentService;
     }
-
-//    @ExceptionHandler(NotFoundException.class)
-//    public String handleNotFound(Exception exception)
-//    {
-//        System.out.println(exception.getMessage());
-//        return exception.getMessage();
-//    }
-//
-//    @ResponseStatus(HttpStatus.BAD_REQUEST)
-//    @ExceptionHandler(BadRequestException.class)
-//    public String badRequestFound(Exception exception)
-//    {
-//        System.out.println(exception.getMessage());
-//        return exception.getMessage();
-//    }
     @PostMapping(path="/")
     @ResponseStatus(HttpStatus.CREATED)
     public DepartmentDTO addDeparment(@RequestBody DepartmentDTO departmentDTO)
@@ -49,6 +34,7 @@ public class DeparmentController
     {
          departmentService.deleteDepartment(id);
     }
+
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public DepartmentDTO UpdateDepartment(@PathVariable int id,@RequestBody DepartmentDTO departmentDTO)

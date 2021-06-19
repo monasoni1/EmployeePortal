@@ -30,6 +30,7 @@ public class ProjectController
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProject(@RequestBody ProjectDTO projectDTO,@PathVariable int id)
     {
+        //update dept id as well
         Project project11=projectMapper.map(projectDTO);
         Project  project1=projectservice.updateProject(id,project11);
         return new ResponseEntity<>(projectMapper.map(project1), HttpStatus.OK);
@@ -51,5 +52,12 @@ public class ProjectController
     {
         Set<Project> projectSet=projectservice.getALlProjects(pageNo,pageSize);
         return new ResponseEntity<>(projectMapper.convert(projectSet),HttpStatus.OK);
+    }
+
+    @PutMapping(path="/{id}/addEmployees")
+    public ResponseEntity<?> mapEmployees(@PathVariable int id, @RequestBody ProjectDTO projectDTO)
+    {
+        Project project=projectservice.mapEmployees(id,projectMapper.map(projectDTO));
+        return new ResponseEntity<>(projectMapper.map(project),HttpStatus.OK);
     }
 }

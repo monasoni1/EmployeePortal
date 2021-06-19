@@ -29,18 +29,16 @@ public class EmployeeController
     @PostMapping(path="/")
     public ResponseEntity<?> addEmployee(@RequestBody EmployeeDTO employeeDTO)
     {
-        return employeeService.addEmployee(employeeMapper.convertDTOTOEMP(employeeDTO));
+        Employee employee=employeeService.addEmployee(employeeMapper.convertDTOTOEMP(employeeDTO));
+        return new ResponseEntity<>(employeeMapper.convertEmpTODTO(employee),HttpStatus.CREATED);
     }
-
     @PutMapping(path="/{id}")
     public ResponseEntity<?> updateEmployee(@RequestBody EmployeeDTO employeeDTO,@PathVariable int id)
     {
-        return employeeService.updateEmployee(employeeMapper.convertDTOTOEMP(employeeDTO),id);
+        // it will not update dept and project
+        Employee employee=employeeService.updateEmployee(employeeMapper.convertDTOTOEMP(employeeDTO),id);
+        return new ResponseEntity<>(employeeMapper.convertEmpTODTO(employee),HttpStatus.OK);
     }
 
-    @PostMapping(path="/{id}/projects")
-    public  ResponseEntity<?> mapProjects(@RequestBody Set<Project> projectList, @PathVariable int id)
-    {
-        return employeeService.mapProject(id,projectList);
-    }
+
 }

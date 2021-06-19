@@ -3,6 +3,7 @@ package com.project.UserPortal.Service;
 import com.project.UserPortal.Domain.Department;
 import com.project.UserPortal.Domain.Employee;
 import com.project.UserPortal.Domain.Project;
+import com.project.UserPortal.Exceptions.ResourceNotFoundException;
 import com.project.UserPortal.Repository.DepartmentRepository;
 import com.project.UserPortal.Repository.EmployeeRepository;
 import com.project.UserPortal.Repository.ProjectRepository;
@@ -29,25 +30,21 @@ public class EmployeeService
         this.projectRepository = projectRepository;
     }
 
-    public ResponseEntity<?> addEmployee(Employee employee)
+    public Employee addEmployee(Employee employee)
     {
-        Optional<Department> optionalDepartment=departmentRepository.findByName(employee.getDepartment().getName());
-        if(!optionalDepartment.isPresent())
-            return new ResponseEntity<>("Department name is not valid", HttpStatus.NOT_FOUND);
+        Optional<Department> optionalDepartment=departmentRepository.findById(employee.getDepartment().getId());
+        if(!optionalDepartment.isPresent()) throw new ResourceNotFoundException("Department is not valid");
        employee.setDepartment(optionalDepartment.get());
-       return new ResponseEntity<>(employeeRepository.save(employee),HttpStatus.CREATED);
+       return employeeRepository.save(employee);
 
     }
-    public ResponseEntity<?> updateEmployee(Employee employee ,int id)
+    public Employee updateEmployee(Employee employee ,int id)
     {
         Optional<Employee> optionalEmployee=employeeRepository.findById(id);
-        if(!optionalEmployee.isPresent())
-            return new ResponseEntity<>("Employee doesn't exist!!",HttpStatus.NOT_FOUND);
+        if(!optionalEmployee.isPresent()) throw new ResourceNotFoundException("Employee doesn't exist with ID "+id);
         employee.setId(id);
-        Set<Project> projects=optionalEmployee.get().getProjects();
-
-
-        return new ResponseEntity<>(employeeRepository.save(employee),HttpStatus.OK);
+        //Set<Project> projects=optionalEmployee.get().getProjects();
+        return employeeRepository.save(employee);
 
     }
     public ResponseEntity<?> mapProject(int id,Set<Project> projects )

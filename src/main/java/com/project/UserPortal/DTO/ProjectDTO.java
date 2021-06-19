@@ -14,7 +14,7 @@ public class ProjectDTO
 {
     private int id;
     private String name;
-    private Set<EmployeeDTO> employees ;
+    private Set<EmployeeInfoDTO> employees ;
     private int deptId;
 
     public int getId() {
@@ -33,11 +33,11 @@ public class ProjectDTO
         this.name = name;
     }
 
-    public Set<EmployeeDTO> getEmployees() {
+    public Set<EmployeeInfoDTO> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(Set<EmployeeDTO> employees) {
+    public void setEmployees(Set<EmployeeInfoDTO> employees) {
         this.employees = employees;
     }
 

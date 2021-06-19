@@ -59,12 +59,7 @@ public class JwtUtilsToken
 //    public boolean validateToken(String token, UserDetails userDetails)
 //    {
 //        final String username=extractUsername(token);
-
 //            return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-//
-//
-//
-//
   //  }
 
     public boolean validateToken(String authToken, HttpServletRequest request) {
@@ -82,7 +77,6 @@ public class JwtUtilsToken
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
-
         return false;
     }
 }

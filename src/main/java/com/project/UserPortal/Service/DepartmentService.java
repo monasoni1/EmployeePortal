@@ -64,8 +64,8 @@ public class DepartmentService
     public Department getDepartment(int id)
     {
         Optional<Department> department=departmentRepository.findById(id);
-        if(department.isPresent())
-            throw new ResourceNotFoundException("Department with id \"+id+\"doesn't exists!!");
+        if(!department.isPresent())
+            throw new ResourceNotFoundException("Department with id "+id+"doesn't exists!!");
             return department.get();
     }
 

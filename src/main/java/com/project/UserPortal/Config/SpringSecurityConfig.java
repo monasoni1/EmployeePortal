@@ -1,5 +1,6 @@
 package com.project.UserPortal.Config;
 
+import com.project.UserPortal.DTO.ProjectInfoDTO;
 import com.project.UserPortal.Domain.Department;
 import com.project.UserPortal.Filters.JwtRequestFilter;
 import com.project.UserPortal.Mapper.*;
@@ -57,6 +58,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
     }
     @Bean ProjectMapper projectMapper() {
         return new ProjectMapperImpl();
+    }
+    @Bean
+    EmployeeInfoMap employeeInfo()
+    {
+        return new EmployeeInfoMapImpl();
     }
     //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
