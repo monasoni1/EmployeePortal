@@ -60,4 +60,10 @@ public class ProjectController
         Project project=projectservice.mapEmployees(id,projectMapper.map(projectDTO));
         return new ResponseEntity<>(projectMapper.map(project),HttpStatus.OK);
     }
+    @PutMapping("/{id}/addNewEmployeeSet")
+    public ResponseEntity<?> addnewEmployeeSet(@PathVariable int id, @RequestBody ProjectDTO projectDTO)
+    {
+        projectservice.addNewEmployeeSet(id,projectMapper.map(projectDTO));
+        return new ResponseEntity<>("deleted",HttpStatus.OK);
+    }
 }

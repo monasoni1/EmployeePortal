@@ -66,18 +66,19 @@ public class ProjectService
         Page<Project> projects=projectRepository.findAll(paging);
         return projects.toSet();
     }
-    public Project mapEmployees(int id,Project project)
+    public Project checkIfprojectIsValid(int id)
     {
-        Optional<Department> department=departmentRepository.findById(id);
-        if(!department.isPresent())
-            throw new ResourceNotFoundException("sertdyfyugiuhi");
-        Department department1=department.get();
         Optional<Project> optionalProject=projectRepository.findById(id);
         if(!optionalProject.isPresent()) throw new ResourceNotFoundException("Project id doesn't exist!!");
-        Project project1=optionalProject.get();
-        Set<Employee> employeeSet1 = project1.getEmployees();
+        return optionalProject.get();
+    }
+    public Project mapEmployees(int id,Project project)
+    {
+        Project project1=checkIfprojectIsValid(id);
+        Optional<Department> department=departmentRepository.findById(project1.getDepartment().getId());
+        Department department1=department.get();
         Set<Employee> employeeExist=checkIfEmployeeAlreadyExist(project.getEmployees(),project1.getEmployees());
-        Set<Employee> employeeNotExist=checkEmployee(project.getEmployees());
+        Set<Employee> employeeNotExist=checkEmployeeAreRegisteredOrNot(project.getEmployees());
         if(employeeExist.size()>0 || employeeNotExist.size()>0)
         {
             Map<String,Set<Employee>> map=new HashMap<String,Set<Employee>>();
@@ -89,13 +90,32 @@ public class ProjectService
             String jsonString = gson.toJson(map);
             throw new CustomException(jsonString);
         }
-        Set <Employee> employeeSet=checkEmployeeWithDepartmentId(project.getEmployees(),project1.getId());
-        project.getEmployees().addAll(employeeSet);
+        Set <Employee> employeeSet=checkEmployeeWithDepartmentId(project.getEmployees(),department1.getId());
+        project1.getEmployees().addAll(employeeSet);
         for(Employee e:employeeSet)
-            e.getProjects().add(project);
-        project.setDepartment(department1);
-        project.setId(id);
-        return projectRepository.save(project);
+            e.getProjects().add(project1);
+        return projectRepository.save(project1);
+    }
+    public Project addNewEmployeeSet(int id, Project project)
+    {
+        Project project1=checkIfprojectIsValid(id);
+        Optional<Department> department=departmentRepository.findById(project1.getDepartment().getId());
+        Department department1=department.get();
+        Set<Employee> employeeSet1 = project1.getEmployees();
+        Project project2=removeExistingEmployee(project1);
+        Set<Employee> employeeNotExist=checkEmployeeAreRegisteredOrNot(project.getEmployees());
+        if(employeeNotExist.size()>0)
+        {
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(employeeNotExist);
+            throw new CustomException("Employees are not Exist :=> "+jsonString);
+        }
+        Set <Employee> employeeSet=checkEmployeeWithDepartmentId(project.getEmployees(),department1.getId());
+        project2.getEmployees().addAll(employeeSet);
+        for(Employee e:employeeSet)
+            e.getProjects().add(project2);
+        return projectRepository.save(project2);
+
     }
     public Set<Employee> checkIfEmployeeAlreadyExist(Set<Employee> employees,Set<Employee> employeeSet)
     {
@@ -111,7 +131,7 @@ public class ProjectService
         }
         return employeeSet1;
     }
-    public Set<Employee> checkEmployee(Set<Employee> employees)
+    public Set<Employee> checkEmployeeAreRegisteredOrNot(Set<Employee> employees)
     {
         Set<Employee> employeeSet=new HashSet<>();
         for(Employee e : employees) {
@@ -128,15 +148,26 @@ public class ProjectService
         {
             Optional<Employee> e1=employeeRepository.findById(e.getId());
             Employee employee=e1.get();
+            int i=employee.getDepartment().getId();
             if(employee.getDepartment().getId()!=deptId)
             {
                 Gson gson=new Gson();
-                String jsonString=gson.toJson(employee);
+                String jsonString=gson.toJson(e);
                 throw new CustomException("Project and employee dept is not same!! "+jsonString);
             }
             employeeSet.add(e1.get());
         }
         return employeeSet;
 
+    }
+    public Project removeExistingEmployee(Project project)
+    {
+        Set<Employee> employeeSet=project.getEmployees();
+        for(Employee e:employeeSet) {
+            e.getProjects().remove(project);
+            e.getProjects();
+        }
+        project.getEmployees().clear();
+        return projectRepository.save(project);
     }
 }
