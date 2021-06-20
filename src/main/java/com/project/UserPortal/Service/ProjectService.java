@@ -117,6 +117,28 @@ public class ProjectService
         return projectRepository.save(project2);
 
     }
+    public Project untagEmployees(int id,Project project)
+    {
+        Project project1=checkIfprojectIsValid(id);
+        Set<Employee> employeeSet=project1.getEmployees();
+        for(Employee e:project.getEmployees())
+        {
+            Employee h=employeeSet.stream()
+                    .filter(e1-> (e.getId()==e.getId()))
+                    .findAny().orElse(null);
+            if(h!=null)
+            {
+                Employee e1 = employeeRepository.findById(e.getId()).get();
+                e1.getProjects().remove(project1);
+                employeeSet.remove(e1);
+            }
+        }
+        project1.getEmployees().clear();
+        projectRepository.save(project1);
+        project1.getEmployees().addAll(employeeSet);
+        return projectRepository.save(project1);
+
+    }
     public Set<Employee> checkIfEmployeeAlreadyExist(Set<Employee> employees,Set<Employee> employeeSet)
     {
         Set <Employee> employeeSet1=new HashSet<>();

@@ -61,9 +61,15 @@ public class ProjectController
         return new ResponseEntity<>(projectMapper.map(project),HttpStatus.OK);
     }
     @PutMapping("/{id}/addNewEmployeeSet")
-    public ResponseEntity<?> addnewEmployeeSet(@PathVariable int id, @RequestBody ProjectDTO projectDTO)
+    public ResponseEntity<?> addNewEmployeeSet(@PathVariable int id, @RequestBody ProjectDTO projectDTO)
     {
-        projectservice.addNewEmployeeSet(id,projectMapper.map(projectDTO));
-        return new ResponseEntity<>("deleted",HttpStatus.OK);
+        Project project=projectservice.addNewEmployeeSet(id,projectMapper.map(projectDTO));
+        return new ResponseEntity<>(projectMapper.map(project),HttpStatus.OK);
+    }
+    @DeleteMapping(path="/{id}/EmployeeSet")
+    public ResponseEntity<?> untagEmployee(@PathVariable int id,@RequestBody ProjectDTO projectDTO)
+    {
+        Project project=projectservice.untagEmployees(id,projectMapper.map(projectDTO));
+        return new ResponseEntity<>(projectMapper.map(project),HttpStatus.OK);
     }
 }
