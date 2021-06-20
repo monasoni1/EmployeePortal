@@ -102,7 +102,6 @@ public class ProjectService
         Optional<Department> department=departmentRepository.findById(project1.getDepartment().getId());
         Department department1=department.get();
         Set<Employee> employeeSet1 = project1.getEmployees();
-        Project project2=removeExistingEmployee(project1);
         Set<Employee> employeeNotExist=checkEmployeeAreRegisteredOrNot(project.getEmployees());
         if(employeeNotExist.size()>0)
         {
@@ -111,6 +110,7 @@ public class ProjectService
             throw new CustomException("Employees are not Exist :=> "+jsonString);
         }
         Set <Employee> employeeSet=checkEmployeeWithDepartmentId(project.getEmployees(),department1.getId());
+        Project project2=removeExistingEmployee(project1);
         project2.getEmployees().addAll(employeeSet);
         for(Employee e:employeeSet)
             e.getProjects().add(project2);
@@ -134,7 +134,6 @@ public class ProjectService
             }
         }
         project1.getEmployees().clear();
-        projectRepository.save(project1);
         project1.getEmployees().addAll(employeeSet);
         return projectRepository.save(project1);
 
@@ -187,9 +186,9 @@ public class ProjectService
         Set<Employee> employeeSet=project.getEmployees();
         for(Employee e:employeeSet) {
             e.getProjects().remove(project);
-            e.getProjects();
+           // e.getProjects();
         }
         project.getEmployees().clear();
-        return projectRepository.save(project);
+        return project;
     }
 }

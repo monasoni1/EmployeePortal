@@ -1,11 +1,15 @@
 package com.project.UserPortal.DTO;
 
 import com.project.UserPortal.Domain.Project;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeDTO
 {
     private int id;
@@ -14,7 +18,7 @@ public class EmployeeDTO
     private String phoneno;
     private Long salary;
     private int deptId;
-    private Set<ProjectDTO> projects;
+    private Set<ProjectInfoDTO> projects;
 
     public int getId() {
         return id;
@@ -64,11 +68,11 @@ public class EmployeeDTO
         this.deptId = deptId;
     }
 
-    public Set<ProjectDTO> getProjects() {
+    public Set<ProjectInfoDTO> getProjects() {
         return projects;
     }
 
-    public void setProjects(Set<ProjectDTO> projects) {
+    public void setProjects(Set<ProjectInfoDTO> projects) {
         this.projects = projects;
     }
 }

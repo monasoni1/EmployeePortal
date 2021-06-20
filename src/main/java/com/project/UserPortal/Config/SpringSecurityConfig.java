@@ -59,11 +59,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
     @Bean ProjectMapper projectMapper() {
         return new ProjectMapperImpl();
     }
-    @Bean
-    EmployeeInfoMap employeeInfo()
-    {
-        return new EmployeeInfoMapImpl();
-    }
+//    @Bean
+//    EmployeeInfoMap employeeInfo()
+//    {
+//        return new EmployeeInfoMapImpl();
+//    }
     //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //        auth.inMemoryAuthentication().withUser("user").password("password").roles("ADMIN");
