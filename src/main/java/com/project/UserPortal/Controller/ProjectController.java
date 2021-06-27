@@ -72,4 +72,14 @@ public class ProjectController
         Project project=projectservice.untagEmployees(id,projectMapper.map(projectDTO));
         return new ResponseEntity<>(projectMapper.map(project),HttpStatus.OK);
     }
+    @GetMapping("/ProjectsInDepartment")
+    public ResponseEntity<?> getProjectByDepartment(@RequestParam String name)
+    {
+        return new ResponseEntity<>(projectservice.getProjectsByDepartment(name),HttpStatus.OK);
+    }
+    @GetMapping("/employeeCount")
+    public ResponseEntity<?> employeeCount()
+    {
+        return new ResponseEntity<>(projectservice.getEmployeeCount(),HttpStatus.OK);
+    }
 }

@@ -33,6 +33,9 @@ public class Project
     @Column(unique = true)
     private String name;
 
+    @Column
+    private Long cost;
+
     @ManyToMany(mappedBy = "projects")
     private Set<Employee> employees =new HashSet<>();
 
@@ -71,5 +74,13 @@ public class Project
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public Long getCost() {
+        return cost;
+    }
+
+    public void setCost(Long cost) {
+        this.cost = cost;
     }
 }

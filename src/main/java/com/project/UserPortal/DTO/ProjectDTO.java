@@ -16,7 +16,14 @@ public class ProjectDTO
     private String name;
     private Set<EmployeeInfoDTO> employees ;
     private int deptId;
+    private Long cost;
 
+    public Long getCost() {
+        return cost;
+    }
+    public void setCost(Long cost) {
+        this.cost = cost;
+    }
     public int getId() {
         return id;
     }

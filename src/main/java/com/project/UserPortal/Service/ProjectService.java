@@ -7,6 +7,7 @@ import com.project.UserPortal.Domain.Project;
 import com.project.UserPortal.Exceptions.CustomException;
 import com.project.UserPortal.Exceptions.ResourceAlreadyExists;
 import com.project.UserPortal.Exceptions.ResourceNotFoundException;
+import com.project.UserPortal.Projection.ProjectEmployee;
 import com.project.UserPortal.Repository.DepartmentRepository;
 import com.project.UserPortal.Repository.EmployeeRepository;
 import com.project.UserPortal.Repository.ProjectRepository;
@@ -190,5 +191,14 @@ public class ProjectService
         }
         project.getEmployees().clear();
         return project;
+    }
+
+    public List<Project> getProjectsByDepartment(String name)
+    {
+        return projectRepository.listProjectByDepartment(name);
+    }
+    public List<ProjectEmployee> getEmployeeCount()
+    {
+        return projectRepository.employeeCountOnProject();
     }
 }

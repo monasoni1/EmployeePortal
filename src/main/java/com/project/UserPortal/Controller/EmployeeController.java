@@ -56,4 +56,9 @@ public class EmployeeController
         return new ResponseEntity<>(employeeMapper.convertEmpTODTO(employee),HttpStatus.OK);
     }
 
+    @GetMapping("/projectCount")
+    public ResponseEntity<?> getProjectCount()
+    {
+        return new ResponseEntity<>(employeeService.getCountOfprojectOnEachEmployee(),HttpStatus.OK);
+    }
 }

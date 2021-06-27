@@ -8,22 +8,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/api/department")
-public class DeparmentController
+public class DepartmentController
 {
     private DepartmentMapper departmentMapper;
     private DepartmentService departmentService;
 
-    public DeparmentController(DepartmentMapper departmentMapper, DepartmentService departmentService) {
+    public DepartmentController(DepartmentMapper departmentMapper, DepartmentService departmentService) {
         this.departmentMapper = departmentMapper;
         this.departmentService = departmentService;
     }
     @PostMapping(path="/")
     @ResponseStatus(HttpStatus.CREATED)
-    public DepartmentDTO addDeparment(@RequestBody DepartmentDTO departmentDTO)
+    public DepartmentDTO addDepartment(@RequestBody DepartmentDTO departmentDTO)
     {
        Department department= departmentService.addDepartment(departmentMapper.convertDTOToDepartment(departmentDTO));
        return departmentMapper.convertDepartmentToDTO(department);
@@ -49,12 +50,23 @@ public class DeparmentController
         Department department=departmentService.getDepartment(id);
         return departmentMapper.convertDepartmentToDTO(department);
     }
-    @GetMapping("/{pageNo}/{pageSize}")
-    public ResponseEntity<?> getALlDepartment(@PathVariable int pageNo , @PathVariable int pageSize)
+    @GetMapping("/")
+    public ResponseEntity<?> getALlDepartment()
     {
-        Set<Department> departmentSet=departmentService.getallDepartment(pageNo,pageSize);
+        //Set<Department> departmentSet=departmentService.getallDepartment(pageNo,pageSize);
+        return new ResponseEntity<>(departmentService.getallDepartment(),HttpStatus.OK);
+    }
 
-        return new ResponseEntity<>(departmentMapper.map1(departmentSet),HttpStatus.OK);
+    @GetMapping("/departmentswithprojectcount")
+    public ResponseEntity<?> listDepartmentWithProjectCount()
+    {
+        return new ResponseEntity<>(departmentService.getDepartmentWithProjectCount(),HttpStatus.OK);
+    }
+
+    @GetMapping("/totalCost")
+    public ResponseEntity<?> getTotalCost()
+    {
+        return new ResponseEntity<>(departmentService.getDepartmentCost(),HttpStatus.OK);
     }
 
 }

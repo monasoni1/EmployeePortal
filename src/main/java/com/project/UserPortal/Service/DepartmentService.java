@@ -1,23 +1,17 @@
 package com.project.UserPortal.Service;
 
-import com.project.UserPortal.DTO.DepartmentDTO;
+import com.project.UserPortal.Projection.DepartmentCost;
+import com.project.UserPortal.Projection.DepartmentList;
 import com.project.UserPortal.Domain.Department;
-import com.project.UserPortal.Domain.Project;
 import com.project.UserPortal.Exceptions.ResourceAlreadyExists;
 import com.project.UserPortal.Exceptions.ResourceNotFoundException;
 import com.project.UserPortal.Mapper.DepartmentMapper;
 import com.project.UserPortal.Repository.DepartmentRepository;
 import com.project.UserPortal.Repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class DepartmentService
@@ -54,13 +48,21 @@ public class DepartmentService
         departmentRepository.deleteById(id);
     }
 
-    public Set<Department> getallDepartment(int pageNo ,int pageSize)
-    {
-        Pageable paging = PageRequest.of(pageNo,pageSize);
-        Page<Department> page=departmentRepository.findAll(paging);
+//    public Set<Department> getallDepartment(int pageNo ,int pageSize)
+//    {
+//        Pageable paging = PageRequest.of(pageNo,pageSize);
+//        Page<Department> page=departmentRepository.findAll(paging);
+//
+//        return page.toSet();
+//    }
 
-        return page.toSet();
+    public List<Department> getallDepartment()
+    {
+        List<Department> page=departmentRepository.viewAllDepartment();
+
+        return page;
     }
+
     public Department getDepartment(int id)
     {
         Optional<Department> department=departmentRepository.findById(id);
@@ -68,5 +70,12 @@ public class DepartmentService
             throw new ResourceNotFoundException("Department with id "+id+"doesn't exists!!");
             return department.get();
     }
-
+    public  List<DepartmentList> getDepartmentWithProjectCount()
+    {
+        return departmentRepository.listDepartmentsWithProjectCount();
+    }
+    public List<DepartmentCost> getDepartmentCost()
+    {
+        return departmentRepository.departmentCost();
+    }
 }
