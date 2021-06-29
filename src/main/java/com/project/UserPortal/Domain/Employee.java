@@ -39,6 +39,7 @@ public class Employee
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(unique = true)
     private String name;
     private String jobtitle;
     private String phoneno;

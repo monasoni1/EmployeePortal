@@ -6,6 +6,7 @@ import com.project.UserPortal.Domain.Department;
 import com.project.UserPortal.Exceptions.ResourceAlreadyExists;
 import com.project.UserPortal.Exceptions.ResourceNotFoundException;
 import com.project.UserPortal.Mapper.DepartmentMapper;
+import com.project.UserPortal.Projection.DepartmentWithProjectCost;
 import com.project.UserPortal.Repository.DepartmentRepository;
 import com.project.UserPortal.Repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,8 @@ public class DepartmentService
     public List<DepartmentCost> getDepartmentCost()
     {
         return departmentRepository.departmentCost();
+    }
+    public  List<DepartmentWithProjectCost> getDepartmentHavingMinSalary(Long salary){
+        return departmentRepository.departmentOnProjectSalary(salary);
     }
 }

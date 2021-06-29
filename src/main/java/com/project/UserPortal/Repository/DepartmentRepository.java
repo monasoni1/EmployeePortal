@@ -3,6 +3,7 @@ package com.project.UserPortal.Repository;
 import com.project.UserPortal.Projection.DepartmentCost;
 import com.project.UserPortal.Projection.DepartmentList;
 import com.project.UserPortal.Domain.Department;
+import com.project.UserPortal.Projection.DepartmentWithProjectCost;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -22,5 +23,9 @@ public interface DepartmentRepository  extends PagingAndSortingRepository<Depart
 
     @Query("select d.id as id,d.name as name,sum(p.cost) as cost from Project p join p.department d  group by d.id")
     List<DepartmentCost> departmentCost();
+
+    //@Query("select d.id,d.name from Department d join Project p on d.id=p.department_id group by d.id having avg(p.cost)>30")
+    @Query("select d.id as id ,d.name as name ,sum(p.cost) as totalCost from Project p join p.department d  group by d.id having sum(p.cost)>?1")
+    List<DepartmentWithProjectCost> departmentOnProjectSalary(Long cost);
 
 }

@@ -69,4 +69,10 @@ public class DepartmentController
         return new ResponseEntity<>(departmentService.getDepartmentCost(),HttpStatus.OK);
     }
 
+    @GetMapping("/DepartmentListOnProjectCost")
+    public ResponseEntity<?> getDepartmentList(@RequestParam String cost)
+    {
+        return new ResponseEntity<>(departmentService.getDepartmentHavingMinSalary(new Long(cost)),HttpStatus.OK);
+    }
+
 }

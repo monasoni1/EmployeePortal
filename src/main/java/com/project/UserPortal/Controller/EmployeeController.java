@@ -61,4 +61,9 @@ public class EmployeeController
     {
         return new ResponseEntity<>(employeeService.getCountOfprojectOnEachEmployee(),HttpStatus.OK);
     }
+    @GetMapping("/notTaggedInProject")
+    public ResponseEntity<?> employeeNotTaggedInProject()
+    {
+        return new ResponseEntity<>(employeeService.employeesNotTaggedInAnyProject(),HttpStatus.OK);
+    }
 }

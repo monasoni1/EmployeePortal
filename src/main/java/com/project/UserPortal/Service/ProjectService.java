@@ -8,6 +8,7 @@ import com.project.UserPortal.Exceptions.CustomException;
 import com.project.UserPortal.Exceptions.ResourceAlreadyExists;
 import com.project.UserPortal.Exceptions.ResourceNotFoundException;
 import com.project.UserPortal.Projection.ProjectEmployee;
+import com.project.UserPortal.Projection.ProjectWithCost;
 import com.project.UserPortal.Repository.DepartmentRepository;
 import com.project.UserPortal.Repository.EmployeeRepository;
 import com.project.UserPortal.Repository.ProjectRepository;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -200,5 +202,10 @@ public class ProjectService
     public List<ProjectEmployee> getEmployeeCount()
     {
         return projectRepository.employeeCountOnProject();
+    }
+
+    public ProjectWithCost fetchHighestCostProject(int n)
+    {
+        return projectRepository.fecthNthHighestSalary(n-1);
     }
 }

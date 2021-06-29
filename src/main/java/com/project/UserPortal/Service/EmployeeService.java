@@ -7,6 +7,7 @@ import com.project.UserPortal.Domain.Employee;
 import com.project.UserPortal.Domain.Project;
 import com.project.UserPortal.Exceptions.CustomException;
 import com.project.UserPortal.Exceptions.ResourceNotFoundException;
+import com.project.UserPortal.Projection.EmployeeDetails;
 import com.project.UserPortal.Projection.EmployeeProject;
 import com.project.UserPortal.Repository.DepartmentRepository;
 import com.project.UserPortal.Repository.EmployeeRepository;
@@ -149,6 +150,11 @@ public class EmployeeService
     public List<EmployeeProject> getCountOfprojectOnEachEmployee()
     {
         return employeeRepository.EmployeewithProjectCount();
+    }
+
+    public List<EmployeeDetails> employeesNotTaggedInAnyProject()
+    {
+        return employeeRepository.employeeNotTaggedInAnyProject();
     }
 
 }
