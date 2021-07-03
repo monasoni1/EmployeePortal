@@ -204,8 +204,10 @@ public class ProjectService
         return projectRepository.employeeCountOnProject();
     }
 
-    public ProjectWithCost fetchHighestCostProject(int n)
+    public ProjectWithCost fetchHighestCostProject(Long num)
     {
-        return projectRepository.fecthNthHighestSalary(n-1);
+        List<ProjectWithCost> list= projectRepository.fecthNthHighestSalary(num-1);
+        return list.get(0);
+
     }
 }

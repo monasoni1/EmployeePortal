@@ -83,8 +83,8 @@ public class ProjectController
         return new ResponseEntity<>(projectservice.getEmployeeCount(),HttpStatus.OK);
     }
     @GetMapping("/highestSalary")
-    public ResponseEntity<?> highestSalary(@RequestParam int n)
+    public ResponseEntity<?> highestSalary(@RequestParam String n)
     {
-        return new ResponseEntity<>(projectservice.fetchHighestCostProject(n),HttpStatus.OK);
+        return new ResponseEntity<>(projectservice.fetchHighestCostProject(new Long (n)),HttpStatus.OK);
     }
 }

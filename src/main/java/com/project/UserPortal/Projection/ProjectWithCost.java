@@ -4,5 +4,5 @@ public interface ProjectWithCost
 {
     int getId();
     String getName();
-    double getCost();
+    Long getCost();
 }

@@ -4,12 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy
 @EnableWebSecurity
-
+@EnableScheduling
 //@ComponentScan(basePackages = {"com.project.UserPortal,com.project.UserPortal.Mapper"})
 public class UserPortalApplication {
 
